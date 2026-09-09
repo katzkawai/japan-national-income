@@ -48,7 +48,7 @@ uv run visualize_national_income.py
 
 本リポジトリは GitHub Pages にてWeb版ダッシュボード（Chart.jsによるインタラクティブグラフ）を公開しています。
 
-- **URL**: https://katzkawai.github.io/japan-national-income/
+- **URL**: https://katzkawai.org/japan-national-income/ (または https://katzkawai.github.io/japan-national-income/ )
 
 ---
 

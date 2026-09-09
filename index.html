@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>日本の国民所得（GNI）推移と分析</title>
+  <title>日本の国民所得（GNI）推移と分析：名目と実質</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js -->
@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Noto Sans JP', 'Inter', sans-serif; }
-    .chart-container { position: relative; height: 420px; width: 100%; }
+    .chart-container { position: relative; height: 440px; width: 100%; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
@@ -26,7 +26,7 @@
           <span>🇯🇵</span> 日本の国民所得（GNI）推移と構造分析
         </h1>
         <p class="text-sm text-slate-500 mt-1">
-          世界銀行オープンデータ（World Bank Open Data）に基づく長期推移（1980年〜2025年）
+          世界銀行オープンデータに基づく名目・実質（物価調整後）の長期推移（1980年〜）
         </p>
       </div>
       <div class="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -46,66 +46,118 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
     
-    <!-- ハイライトKPIカード -->
+    <!-- 名目・実質 解説バナー -->
+    <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border border-blue-200/70 rounded-xl p-5 shadow-sm">
+      <div class="flex items-start gap-3.5">
+        <span class="text-2xl mt-0.5">📊</span>
+        <div class="space-y-1 text-sm leading-relaxed text-slate-700">
+          <p class="font-bold text-slate-900 text-base">「名目」と「実質」の読み解き方</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+            <div class="bg-white/80 p-3 rounded-lg border border-blue-100">
+              <span class="font-bold text-blue-700">【名目（Nominal）】</span>
+              その年の市場価格で計算した額面上の数値。インフレ（物価上昇）局面では金額が大きく膨らみます。
+            </div>
+            <div class="bg-white/80 p-3 rounded-lg border border-emerald-100">
+              <span class="font-bold text-emerald-700">【実質（Real）】</span>
+              基準年価格で固定し物価変動の影響を除去した数値。国民の実質的な購買力や生活水準を表します。
+            </div>
+          </div>
+          <p class="text-xs text-slate-600 pt-1">
+            ※ 2022年以降はインフレ影響により「名目GNI」が700兆円規模へ急拡大する一方、「実質GNI」は約608兆円で推移しており、名目と実質の乖離（物価上昇要因）が鮮明になっています。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ハイライトKPIカード（名目 vs 実質） -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <div class="text-sm font-semibold text-slate-500">国民総所得 (GNI)</div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span class="text-3xl font-bold text-blue-600">705.7</span>
-          <span class="text-slate-600 font-medium">兆円</span>
+      <!-- GNI -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">国民総所得 (GNI)</div>
+        <div class="flex justify-between items-baseline">
+          <div>
+            <div class="text-2xl font-bold text-blue-600">705.7 <span class="text-sm font-normal text-slate-600">兆円</span></div>
+            <div class="text-xs text-slate-500 font-medium">名目 (2025年)</div>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold text-emerald-600">608.2 <span class="text-sm font-normal text-slate-600">兆円</span></div>
+            <div class="text-xs text-slate-500 font-medium">実質 (2024年)</div>
+          </div>
         </div>
-        <div class="mt-2 text-xs text-emerald-600 font-medium flex items-center gap-1">
-          <span>▲ 2025年（対前年 +4.9%）</span>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <div class="text-sm font-semibold text-slate-500">国内総生産 (GDP)</div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span class="text-3xl font-bold text-orange-500">663.8</span>
-          <span class="text-slate-600 font-medium">兆円</span>
-        </div>
-        <div class="mt-2 text-xs text-emerald-600 font-medium flex items-center gap-1">
-          <span>▲ 2025年（名目国内生産）</span>
+        <div class="text-xs text-slate-500 pt-1 border-t border-slate-100">
+          物価差（名目−実質）: <strong class="text-orange-600">+64.6兆円</strong>
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <div class="text-sm font-semibold text-slate-500">海外からの純所得 (GNI − GDP)</div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span class="text-3xl font-bold text-emerald-600">+41.9</span>
-          <span class="text-slate-600 font-medium">兆円</span>
+      <!-- GDP -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">国内総生産 (GDP)</div>
+        <div class="flex justify-between items-baseline">
+          <div>
+            <div class="text-2xl font-bold text-orange-500">663.8 <span class="text-sm font-normal text-slate-600">兆円</span></div>
+            <div class="text-xs text-slate-500 font-medium">名目 (2025年)</div>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold text-purple-600">591.2 <span class="text-sm font-normal text-slate-600">兆円</span></div>
+            <div class="text-xs text-slate-500 font-medium">実質 (2025年)</div>
+          </div>
         </div>
-        <div class="mt-2 text-xs text-slate-500 font-medium">
-          過去最大水準（海外投資・配当収益等）
+        <div class="text-xs text-slate-500 pt-1 border-t border-slate-100">
+          実質ベース国内生産量推移
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-        <div class="text-sm font-semibold text-slate-500">1人当たり国民所得 (GNI)</div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span class="text-3xl font-bold text-indigo-600">572.0</span>
-          <span class="text-slate-600 font-medium">万円</span>
+      <!-- 海外からの純所得 -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">海外からの純所得 (GNI − GDP)</div>
+        <div class="flex justify-between items-baseline">
+          <div>
+            <div class="text-2xl font-bold text-emerald-600">+41.9 <span class="text-sm font-normal text-slate-600">兆円</span></div>
+            <div class="text-xs text-slate-500 font-medium">名目受取超過 (2025)</div>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold text-teal-600">+24.0 <span class="text-sm font-normal text-slate-600">兆円</span></div>
+            <div class="text-xs text-slate-500 font-medium">実質受取超過 (2024)</div>
+          </div>
         </div>
-        <div class="mt-2 text-xs text-slate-500 font-medium">
+        <div class="text-xs text-slate-500 pt-1 border-t border-slate-100">
+          海外投資収益が実質所得も大きく底上げ
+        </div>
+      </div>
+
+      <!-- 1人当たりGNI -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-2">
+        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">1人当たり国民所得 (GNI)</div>
+        <div class="flex justify-between items-baseline">
+          <div>
+            <div class="text-2xl font-bold text-indigo-600">572.0 <span class="text-sm font-normal text-slate-600">万円</span></div>
+            <div class="text-xs text-slate-500 font-medium">名目額面 (2025)</div>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold text-emerald-700">490.6 <span class="text-sm font-normal text-slate-600">万円</span></div>
+            <div class="text-xs text-slate-500 font-medium">実質購買力 (2024)</div>
+          </div>
+        </div>
+        <div class="text-xs text-slate-500 pt-1 border-t border-slate-100">
           ドル換算: 約 $38,000 前後
         </div>
       </div>
     </section>
 
-    <!-- インタラクティブグラフ -->
+    <!-- インタラクティブ推移チャート -->
     <section class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
           <h2 class="text-lg font-bold text-slate-900">インタラクティブ推移チャート</h2>
-          <p class="text-sm text-slate-500">データポイントにホバーすると詳細な年次データを確認できます</p>
+          <p class="text-sm text-slate-500">タブを選択して名目と実質の詳細な年次推移を比較できます</p>
         </div>
         <!-- タブ切り替え -->
         <div class="flex flex-wrap gap-1.5 bg-slate-100 p-1 rounded-lg text-xs font-semibold">
-          <button onclick="switchChart('gni-gdp')" id="tab-gni-gdp" class="tab-btn px-3 py-1.5 rounded-md bg-white text-blue-600 shadow-sm">GNI vs GDP</button>
+          <button onclick="switchChart('nominal-vs-real')" id="tab-nominal-vs-real" class="tab-btn px-3 py-1.5 rounded-md bg-white text-blue-600 shadow-sm">GNI：名目 vs 実質</button>
+          <button onclick="switchChart('real-gni-gdp')" id="tab-real-gni-gdp" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900">実質GNI vs 実質GDP</button>
+          <button onclick="switchChart('per-capita')" id="tab-per-capita" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900">1人当り：名目 vs 実質</button>
+          <button onclick="switchChart('growth')" id="tab-growth" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900">成長率：名目 vs 実質</button>
           <button onclick="switchChart('net-income')" id="tab-net-income" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900">海外からの純所得</button>
-          <button onclick="switchChart('per-capita')" id="tab-per-capita" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900">1人当り所得</button>
-          <button onclick="switchChart('growth')" id="tab-growth" class="tab-btn px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900">成長率(%)</button>
         </div>
       </div>
 
@@ -113,9 +165,8 @@
         <canvas id="mainChart"></canvas>
       </div>
 
-      <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs text-blue-900 leading-relaxed">
-        <strong>💡 経済的な着眼点:</strong>
-        近年、国内の生産活動を示す「GDP」に対して、国民や国内企業が海外から得る投資収益（配当や利子）を含めた「GNI」が大きく上回っています（年間約40兆円以上の受取超過）。日本経済が「貿易立国」から「投資立国」へ構造変化した姿が国民所得の推移からも鮮明に読み取れます。
+      <div id="chart-caption" class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-700 leading-relaxed">
+        <!-- 動的キャプション -->
       </div>
     </section>
 
@@ -123,8 +174,8 @@
     <section class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
       <div class="flex justify-between items-center border-b border-slate-100 pb-4">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">Python (PEP 723 / Matplotlib) による可視化結果</h2>
-          <p class="text-sm text-slate-500">スクリプト実行によって自動生成された4面分析プロット画像</p>
+          <h2 class="text-lg font-bold text-slate-900">Python (PEP 723 / Matplotlib) による名目・実質分析プロット</h2>
+          <p class="text-sm text-slate-500">スクリプト実行によって自動生成された高解像度4面分析チャート</p>
         </div>
         <a href="japan_national_income.png" download class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
@@ -133,7 +184,7 @@
       </div>
       <div class="bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
         <a href="japan_national_income.png" target="_blank" title="クリックして原寸表示">
-          <img src="japan_national_income.png" alt="日本の国民所得推移と分析" class="w-full h-auto object-contain hover:opacity-95 transition">
+          <img src="japan_national_income.png" alt="日本の国民所得推移と分析：名目 vs 実質" class="w-full h-auto object-contain hover:opacity-95 transition">
         </a>
       </div>
     </section>
@@ -148,7 +199,7 @@
           このプロジェクトは <strong>PEP 723 (Inline script metadata)</strong> を採用しているため、仮想環境の作成や <code class="bg-slate-100 px-1 py-0.5 rounded text-xs">pip install</code> なしで即座に実行可能です。
         </p>
         <div class="bg-slate-900 text-slate-100 p-4 rounded-lg font-mono text-sm overflow-x-auto shadow-inner">
-          <span class="text-slate-400"># リポジトリをクローンして即実行</span><br>
+          <span class="text-slate-400"># リポジトリをクローンして即実行（名目・実質データを最新化）</span><br>
           <span class="text-emerald-400">uv run</span> visualize_national_income.py
         </div>
       </div>
@@ -174,18 +225,23 @@
       </div>
     </section>
 
-    <!-- 直近データテーブル -->
+    <!-- 直近データテーブル（名目 & 実質） -->
     <section class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-4">
-      <h2 class="text-lg font-bold text-slate-900">推移データ一覧（直近10年）</h2>
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+        <h2 class="text-lg font-bold text-slate-900">推移データ一覧（直近10年：名目 vs 実質）</h2>
+        <span class="text-xs text-slate-500">※ 実質値は基準年固定価格</span>
+      </div>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-slate-200 text-sm">
           <thead class="bg-slate-50">
             <tr>
-              <th class="px-4 py-3 text-left font-semibold text-slate-600">年</th>
-              <th class="px-4 py-3 text-right font-semibold text-slate-600">名目GNI (兆円)</th>
-              <th class="px-4 py-3 text-right font-semibold text-slate-600">名目GDP (兆円)</th>
-              <th class="px-4 py-3 text-right font-semibold text-slate-600">海外からの純所得 (兆円)</th>
-              <th class="px-4 py-3 text-right font-semibold text-slate-600">1人当りGNI (万円)</th>
+              <th class="px-3 py-3 text-left font-semibold text-slate-600">年</th>
+              <th class="px-3 py-3 text-right font-semibold text-blue-600">名目GNI (兆円)</th>
+              <th class="px-3 py-3 text-right font-semibold text-emerald-600">実質GNI (兆円)</th>
+              <th class="px-3 py-3 text-right font-semibold text-orange-600">名目GDP (兆円)</th>
+              <th class="px-3 py-3 text-right font-semibold text-purple-600">実質GDP (兆円)</th>
+              <th class="px-3 py-3 text-right font-semibold text-slate-700">1人当り名目(万円)</th>
+              <th class="px-3 py-3 text-right font-semibold text-emerald-700">1人当り実質(万円)</th>
             </tr>
           </thead>
           <tbody id="table-body" class="divide-y divide-slate-100">
@@ -212,7 +268,7 @@
         const res = await fetch('data.json');
         globalData = await res.json();
         renderTable(globalData.slice(-10).reverse());
-        switchChart('gni-gdp');
+        switchChart('nominal-vs-real');
       } catch (e) {
         console.error('データ読み込み失敗:', e);
       }
@@ -221,12 +277,14 @@
     function renderTable(records) {
       const tbody = document.getElementById('table-body');
       tbody.innerHTML = records.map(r => `
-        <tr class="hover:bg-slate-50 transition">
-          <td class="px-4 py-2.5 font-medium text-slate-800">${r.year}</td>
-          <td class="px-4 py-2.5 text-right font-semibold text-blue-600">${r.GNI_trillion_yen?.toFixed(1) ?? '-'}</td>
-          <td class="px-4 py-2.5 text-right text-orange-600">${r.GDP_trillion_yen?.toFixed(1) ?? '-'}</td>
-          <td class="px-4 py-2.5 text-right font-semibold text-emerald-600">+${r.Net_income_from_abroad_trillion_yen?.toFixed(1) ?? '-'}</td>
-          <td class="px-4 py-2.5 text-right text-slate-700">${r.GNI_per_capita_man_yen?.toFixed(1) ?? '-'}</td>
+        <tr class="hover:bg-slate-50 transition font-mono text-xs sm:text-sm">
+          <td class="px-3 py-2.5 font-bold text-slate-800">${r.year}</td>
+          <td class="px-3 py-2.5 text-right font-semibold text-blue-600">${r.GNI_nominal_trillion?.toFixed(1) ?? '-'}</td>
+          <td class="px-3 py-2.5 text-right font-semibold text-emerald-600">${r.GNI_real_trillion?.toFixed(1) ?? '-'}</td>
+          <td class="px-3 py-2.5 text-right text-orange-600">${r.GDP_nominal_trillion?.toFixed(1) ?? '-'}</td>
+          <td class="px-3 py-2.5 text-right text-purple-600">${r.GDP_real_trillion?.toFixed(1) ?? '-'}</td>
+          <td class="px-3 py-2.5 text-right text-slate-700">${r.GNI_pc_nominal_man_yen?.toFixed(1) ?? '-'}</td>
+          <td class="px-3 py-2.5 text-right font-medium text-emerald-700">${r.GNI_pc_real_man_yen?.toFixed(1) ?? '-'}</td>
         </tr>
       `).join('');
     }
@@ -244,32 +302,31 @@
 
       const years = globalData.map(d => d.year);
       const ctx = document.getElementById('mainChart').getContext('2d');
+      const captionEl = document.getElementById('chart-caption');
       if (chartInstance) chartInstance.destroy();
 
       let config = {};
 
-      if (type === 'gni-gdp') {
+      if (type === 'nominal-vs-real') {
         config = {
           type: 'line',
           data: {
             labels: years,
             datasets: [
               {
-                label: '国民総所得 (GNI: 兆円)',
-                data: globalData.map(d => d.GNI_trillion_yen),
+                label: '名目GNI (額面・兆円)',
+                data: globalData.map(d => d.GNI_nominal_trillion),
                 borderColor: '#2563eb',
                 backgroundColor: 'rgba(37, 99, 235, 0.08)',
                 borderWidth: 2.5,
-                fill: true,
                 tension: 0.1
               },
               {
-                label: '国内総生産 (GDP: 兆円)',
-                data: globalData.map(d => d.GDP_trillion_yen),
-                borderColor: '#f97316',
+                label: '実質GNI (物価調整後・兆円)',
+                data: globalData.map(d => d.GNI_real_trillion),
+                borderColor: '#059669',
                 borderDash: [5, 5],
-                borderWidth: 2,
-                fill: false,
+                borderWidth: 2.5,
                 tension: 0.1
               }
             ]
@@ -281,24 +338,40 @@
             scales: { y: { title: { display: true, text: '兆円' } } }
           }
         };
-      } else if (type === 'net-income') {
+        captionEl.innerHTML = "<strong>💡 名目 vs 実質のポイント:</strong> 2010年代まではデフレ傾向により実質GNIが名目を上回る局面がありましたが、2022年以降のインフレ局面では名目GNIが急上昇し、実質との乖離（物価上昇による膨らみ）が拡大しています。";
+      } else if (type === 'real-gni-gdp') {
         config = {
-          type: 'bar',
+          type: 'line',
           data: {
             labels: years,
-            datasets: [{
-              label: '海外からの純所得 (一次所得収支: 兆円)',
-              data: globalData.map(d => d.Net_income_from_abroad_trillion_yen),
-              backgroundColor: globalData.map(d => d.Net_income_from_abroad_trillion_yen >= 0 ? '#10b981' : '#ef4444'),
-              borderRadius: 4
-            }]
+            datasets: [
+              {
+                label: '実質GNI (国民総所得・兆円)',
+                data: globalData.map(d => d.GNI_real_trillion),
+                borderColor: '#059669',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderWidth: 2.5,
+                fill: true,
+                tension: 0.1
+              },
+              {
+                label: '実質GDP (国内総生産・兆円)',
+                data: globalData.map(d => d.GDP_real_trillion),
+                borderColor: '#9333ea',
+                borderDash: [4, 4],
+                borderWidth: 2,
+                tension: 0.1
+              }
+            ]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: { y: { title: { display: true, text: '兆円' } } }
+            interaction: { mode: 'index', intersect: false },
+            scales: { y: { title: { display: true, text: '兆円 (実質固定価格)' } } }
           }
         };
+        captionEl.innerHTML = "<strong>💡 実質ベースのGNIとGDP:</strong> 物価変動を除いた実質ベースでも、実質GNIは実質GDPを上回って推移しています（実質GNI 608兆円 vs 実質GDP 584兆円）。海外からの実質的な利子・配当受取が国民所得を底上げしています。";
       } else if (type === 'per-capita') {
         config = {
           type: 'line',
@@ -306,19 +379,19 @@
             labels: years,
             datasets: [
               {
-                label: '1人当たりGNI (万円)',
-                data: globalData.map(d => d.GNI_per_capita_man_yen),
+                label: '1人当たり名目GNI (万円)',
+                data: globalData.map(d => d.GNI_pc_nominal_man_yen),
                 borderColor: '#2563eb',
                 borderWidth: 2.5,
-                yAxisID: 'y'
+                tension: 0.1
               },
               {
-                label: '1人当たりGNI (USドル: Atlas法)',
-                data: globalData.map(d => d.GNI_per_capita_usd),
-                borderColor: '#8b5cf6',
-                borderDash: [4, 4],
-                borderWidth: 2,
-                yAxisID: 'y1'
+                label: '1人当たり実質GNI (万円)',
+                data: globalData.map(d => d.GNI_pc_real_man_yen),
+                borderColor: '#059669',
+                borderDash: [5, 5],
+                borderWidth: 2.5,
+                tension: 0.1
               }
             ]
           },
@@ -326,12 +399,10 @@
             responsive: true,
             maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
-            scales: {
-              y: { type: 'linear', display: true, position: 'left', title: { display: true, text: '万円' } },
-              y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'USドル' } }
-            }
+            scales: { y: { title: { display: true, text: '万円 / 人' } } }
           }
         };
+        captionEl.innerHTML = "<strong>💡 1人当たり所得の推移:</strong> 額面上の名目所得は直近で570万円を超えていますが、物価変動を調整した実質所得は490万円前後で推移しており、生活実感・購買力としての所得水準を客観的に把握できます。";
       } else if (type === 'growth') {
         config = {
           type: 'line',
@@ -339,17 +410,17 @@
             labels: years,
             datasets: [
               {
-                label: 'GNI成長率 (%)',
-                data: globalData.map(d => d.GNI_growth_rate),
+                label: '名目GNI成長率 (%)',
+                data: globalData.map(d => d.GNI_growth_nominal),
                 borderColor: '#2563eb',
                 borderWidth: 2
               },
               {
-                label: 'GDP成長率 (%)',
-                data: globalData.map(d => d.GDP_growth_rate),
-                borderColor: '#f97316',
+                label: '実質GNI成長率 (%)',
+                data: globalData.map(d => d.GNI_growth_real),
+                borderColor: '#059669',
                 borderDash: [4, 4],
-                borderWidth: 1.5
+                borderWidth: 2
               }
             ]
           },
@@ -359,6 +430,26 @@
             scales: { y: { title: { display: true, text: '前年比 (%)' } } }
           }
         };
+        captionEl.innerHTML = "<strong>💡 成長率比較:</strong> 実質GNI成長率（物価影響除外）と名目GNI成長率の推移です。近年の伸びのどの程度が実質的な拡大で、どの程度がインフレ要因かを確認できます。";
+      } else if (type === 'net-income') {
+        config = {
+          type: 'bar',
+          data: {
+            labels: years,
+            datasets: [{
+              label: '海外からの純所得 (名目: 兆円)',
+              data: globalData.map(d => d.Net_income_nominal_trillion),
+              backgroundColor: globalData.map(d => (d.Net_income_nominal_trillion ?? 0) >= 0 ? '#10b981' : '#ef4444'),
+              borderRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { title: { display: true, text: '兆円' } } }
+          }
+        };
+        captionEl.innerHTML = "<strong>💡 海外からの純所得（第一次所得収支）:</strong> 日本の対外資産（直接投資・証券投資）から生じる利子・配当収入の受取超過額です。年間40兆円規模に達しています。";
       }
 
       chartInstance = new Chart(ctx, config);
